@@ -8,16 +8,16 @@ const CARD_SCENE := preload("res://addons/modular_perks/ui/perk_card.tscn")
 @onready var _cards_row: HBoxContainer = %CardsRow
 @onready var _confirm_button: Button = %ConfirmButton
 
-var _api = null
+var _api: PerkAPI = null
 var _state = null
 var _offers: Array = []
 var _selection_mode: String = "default"
 var _preview_locked: bool = false
-var _selected_index := -1
+var _selected_index: int = -1
 var _cards: Array = []
 
 
-func configure(api, state) -> void:
+func configure(api: PerkAPI, state) -> void:
 	_api = api
 	_state = state
 
@@ -40,11 +40,11 @@ func _rebuild_cards() -> void:
 		child.queue_free()
 	_cards.clear()
 	for index in _offers.size():
-		var card := CARD_SCENE.instantiate()
+		var card: Node = CARD_SCENE.instantiate()
 		_cards_row.add_child(card)
 		card.configure(_api)
 		card.bind_offer(_offers[index])
-		var captured_index := index
+		var captured_index: int = index
 		card.card_clicked.connect(func() -> void:
 			_select_index(captured_index)
 		)
@@ -62,14 +62,14 @@ func _on_confirm_pressed() -> void:
 	if _selected_index < 0 or _selected_index >= _offers.size():
 		return
 	var offer: Dictionary = _offers[_selected_index]
-	var kind := String(offer.get("kind", ""))
+	var kind: String = String(offer.get("kind", ""))
 	if kind == "reroll":
 		_handle_reroll()
 		return
 	if offer.has("id") and String(offer.get("id", "")).begins_with("gate_"):
 		_handle_gate(String(offer.get("id", "")))
 		return
-	var perk_id := String(offer.get("perk_id", ""))
+	var perk_id: String = String(offer.get("perk_id", ""))
 	if perk_id == "":
 		return
 	selection_completed.emit(perk_id, offer)
@@ -77,7 +77,7 @@ func _on_confirm_pressed() -> void:
 
 func _handle_reroll() -> void:
 	_preview_locked = true
-	var rerolled := _api.roll_offers(_state, 3, true, _selection_mode)
+	var rerolled: Array = _api.roll_offers(_state, 3, true, _selection_mode)
 	present_offers(rerolled, _selection_mode, true)
 
 

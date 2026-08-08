@@ -8,9 +8,9 @@ signal card_clicked
 @onready var _category_bar: ColorRect = %CategoryBar
 @onready var _preview_banner: Label = %PreviewBanner
 
-var _api = null
+var _api: PerkAPI = null
 var _offer: Dictionary = {}
-var _selected := false
+var _selected: bool = false
 
 
 func _ready() -> void:
@@ -18,14 +18,14 @@ func _ready() -> void:
 	gui_input.connect(_on_gui_input)
 
 
-func configure(api) -> void:
+func configure(api: PerkAPI) -> void:
 	_api = api
 
 
 func bind_offer(offer: Dictionary) -> void:
 	_offer = offer.duplicate(true)
 	_selected = false
-	var kind := String(offer.get("kind", ""))
+	var kind: String = String(offer.get("kind", ""))
 	match kind:
 		"perk":
 			_bind_perk_offer(offer)
@@ -50,14 +50,14 @@ func _bind_perk_offer(offer: Dictionary) -> void:
 	_icon.texture = definition.icon
 	_category_bar.color = _api.get_category_color(String(definition.category))
 	_apply_rarity_border(String(definition.rarity))
-	var preview_only := bool(offer.get("preview_only", false))
+	var preview_only: bool = bool(offer.get("preview_only", false))
 	_preview_banner.visible = preview_only or bool(definition.is_locked(_api.get_unlock_score()))
 	if _preview_banner.visible:
 		_preview_banner.text = "Preview" if preview_only else "Locked (%d)" % int(definition.unlock_score_required)
 
 
 func _bind_gate(gate: Dictionary) -> void:
-	var category := String(gate.get("category", "utility"))
+	var category: String = String(gate.get("category", "utility"))
 	_name_label.text = "Category Gate: %s" % category.capitalize()
 	_description.text = "Choose one perk from this category."
 	_icon.texture = null
@@ -76,7 +76,7 @@ func _bind_reroll() -> void:
 
 
 func _apply_rarity_border(rarity: String) -> void:
-	var style := StyleBoxFlat.new()
+	var style: StyleBoxFlat = StyleBoxFlat.new()
 	style.bg_color = Color(0.12, 0.14, 0.18, 1.0)
 	style.set_border_width_all(2)
 	style.border_color = _api.get_rarity_color(rarity) if _api != null else Color.GRAY
