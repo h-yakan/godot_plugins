@@ -17,7 +17,8 @@ func _exit_tree() -> void:
 
 
 func get_editor_icon() -> Texture2D:
-	return get_editor_theme_icon("Resource")
+	# Compatible across Godot 4.x (get_editor_theme_icon is not available everywhere)
+	return get_editor_interface().get_base_control().get_theme_icon("Resource", "EditorIcons")
 
 
 func _enable_plugin() -> void:
