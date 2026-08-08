@@ -1,0 +1,30 @@
+[gd_scene load_steps=9 format=3 uid="uid://cgskillhost001"]
+
+[ext_resource type="Script" path="res://godot_plugins/any_game_skill_system/scripts/ga_skill_host.gd" id="1_host"]
+[ext_resource type="Script" path="res://godot_plugins/any_game_skill_system/scripts/core/ga_skill_controller.gd" id="2_controller"]
+[ext_resource type="PackedScene" uid="uid://cgaforce001" path="res://godot_plugins/any_game_skill_system/content/sample/ga_force_skill/ga_force_skill.tscn" id="3_force"]
+[ext_resource type="PackedScene" uid="uid://cgtog001" path="res://godot_plugins/any_game_skill_system/content/sample/ga_toggle_shield/ga_toggle_shield.tscn" id="4_toggle"]
+[ext_resource type="PackedScene" uid="uid://cgspam001" path="res://godot_plugins/any_game_skill_system/content/sample/ga_spam_pulse/ga_spam_pulse.tscn" id="5_spam"]
+[ext_resource type="PackedScene" uid="uid://cgpas001" path="res://godot_plugins/any_game_skill_system/content/sample/ga_passive_momentum/ga_passive_momentum.tscn" id="6_passive"]
+[ext_resource type="PackedScene" uid="uid://cgaura001" path="res://godot_plugins/any_game_skill_system/content/sample/ga_always_aura/ga_always_aura.tscn" id="7_aura"]
+
+[node name="GaSkillHost" type="Node"]
+script = ExtResource("1_host")
+slot_container_paths = Array[NodePath]([NodePath("Slots")])
+
+[node name="GaSkillController" type="Node" parent="."]
+script = ExtResource("2_controller")
+auto_discover_skills = false
+discovery_root_path = NodePath("..")
+
+[node name="Slots" type="Node" parent="."]
+
+[node name="GaForceSkill" parent="Slots" instance=ExtResource("3_force")]
+
+[node name="GaToggleShield" parent="Slots" instance=ExtResource("4_toggle")]
+
+[node name="GaSpamPulse" parent="Slots" instance=ExtResource("5_spam")]
+
+[node name="GaPassiveMomentum" parent="Slots" instance=ExtResource("6_passive")]
+
+[node name="GaAlwaysAura" parent="Slots" instance=ExtResource("7_aura")]

@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgskillbar001"]
+
+[ext_resource type="Script" path="res://godot_plugins/any_game_skill_system/scripts/ga_skill_bar.gd" id="1_bar"]
+[ext_resource type="PackedScene" uid="uid://cgskillslot001" path="res://godot_plugins/any_game_skill_system/scenes/ga_skill_slot.tscn" id="2_slot"]
+
+[node name="GaSkillBar" type="HBoxContainer"]
+theme_override_constants/separation = 8
+script = ExtResource("1_bar")
+
+[node name="PrimarySkill" parent="." instance=ExtResource("2_slot")]
+layout_mode = 2
+skill_id = "ga_force_skill"
+input_action = &"PrimarySkill"
+
+[node name="SecondarySkill" parent="." instance=ExtResource("2_slot")]
+layout_mode = 2
+skill_id = "ga_toggle_shield"
+input_action = &"SecondarySkill"
+
+[node name="TertiarySkill" parent="." instance=ExtResource("2_slot")]
+layout_mode = 2
+skill_id = "ga_spam_pulse"
+input_action = &"TertiarySkill"
+
+[node name="PassiveSkill" parent="." instance=ExtResource("2_slot")]
+layout_mode = 2
+skill_id = "ga_passive_momentum"
+
+[node name="AuraSkill" parent="." instance=ExtResource("2_slot")]
+layout_mode = 2
+skill_id = "ga_always_aura"
