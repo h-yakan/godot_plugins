@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="PerkDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://godot_plugins/modular_perks/core/perk_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "sample_opening_gift"
+display_name = "Opening Gift"
+description = "Only available during session start selection."
+unlock_score_required = 0
+category = "utility"
+rarity = "epic"
+session_start_only = true
+effect_data = {
+"amount": 20,
+"kind": "resource_bonus",
+"resource_id": "supplies"
+}

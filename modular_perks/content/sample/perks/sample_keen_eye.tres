@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PerkDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://godot_plugins/modular_perks/core/perk_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "sample_keen_eye"
+display_name = "Keen Eye"
+description = "Gain a small resource bonus when picked."
+unlock_score_required = 0
+category = "utility"
+rarity = "common"
+effect_data = {
+"amount": 5,
+"kind": "resource_bonus",
+"resource_id": "insight"
+}

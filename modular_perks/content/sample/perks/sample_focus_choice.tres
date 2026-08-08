@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PerkDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://godot_plugins/modular_perks/core/perk_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "sample_focus_choice"
+display_name = "Focus Choice"
+description = "Pick one of several options provided by the host."
+unlock_score_required = 150
+category = "utility"
+rarity = "rare"
+effect_data = {
+"kind": "option_pick",
+"option_group": "focus",
+"requires_option_pick": true
+}
