@@ -8,7 +8,7 @@ var flags: Dictionary = {}
 
 
 func duplicate_state():
-	var copy_script: GDScript = load("res://godot_plugins/modular_perks/core/perk_run_state.gd")
+	var copy_script: GDScript = load("res://addons/modular_perks/core/perk_run_state.gd")
 	var copy = copy_script.new()
 	copy.active_ids = active_ids.duplicate()
 	copy.picked_ids = picked_ids.duplicate()
@@ -27,7 +27,7 @@ func to_dict() -> Dictionary:
 
 
 static func from_dict(data: Dictionary):
-	var state_script: GDScript = load("res://godot_plugins/modular_perks/core/perk_run_state.gd")
+	var state_script: GDScript = load("res://addons/modular_perks/core/perk_run_state.gd")
 	var state = state_script.new()
 	for raw_id in data.get("active_ids", []):
 		state.active_ids.append(String(raw_id))

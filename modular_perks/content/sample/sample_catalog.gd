@@ -1,7 +1,7 @@
 class_name SamplePerkCatalog
 extends RefCounted
 
-const DefinitionScript := preload("res://godot_plugins/modular_perks/core/perk_definition.gd")
+const DefinitionScript := preload("res://addons/modular_perks/core/perk_definition.gd")
 
 
 static func build_definitions() -> Array:

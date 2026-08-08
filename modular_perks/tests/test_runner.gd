@@ -1,6 +1,6 @@
 extends RefCounted
 
-const ModuleLoader := preload("res://godot_plugins/modular_perks/load.gd")
+const ModuleLoader := preload("res://addons/modular_perks/load.gd")
 
 
 static func run_all() -> Dictionary:
@@ -89,7 +89,7 @@ static func test_run_state_roundtrip() -> Dictionary:
 	state.active_ids.append("sample_keen_eye")
 	state.picked_ids.append("sample_keen_eye")
 	state.set_flag("session_start_done", true)
-	var state_script: GDScript = load("res://godot_plugins/modular_perks/core/perk_run_state.gd")
+	var state_script: GDScript = load("res://addons/modular_perks/core/perk_run_state.gd")
 	var restored: Object = state_script.from_dict(state.to_dict())
 	if restored.active_ids != state.active_ids:
 		return _fail("run_state_roundtrip", "active_ids mismatch")

@@ -1,5 +1,5 @@
 class_name NullPerkHost
-extends "res://godot_plugins/modular_perks/host/perk_host.gd"
+extends "res://addons/modular_perks/host/perk_host.gd"
 
 var unlock_score: int = 9999
 var target_entities: Array[Dictionary] = []

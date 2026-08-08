@@ -1,7 +1,7 @@
 extends SceneTree
 
-const ModuleLoader := preload("res://godot_plugins/modular_perks/load.gd")
-const TestRunner := preload("res://godot_plugins/modular_perks/tests/test_runner.gd")
+const ModuleLoader := preload("res://addons/modular_perks/load.gd")
+const TestRunner := preload("res://addons/modular_perks/tests/test_runner.gd")
 
 
 func _init() -> void:

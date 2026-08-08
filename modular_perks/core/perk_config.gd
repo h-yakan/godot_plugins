@@ -39,7 +39,7 @@ var gates: Array = [
 
 
 func duplicate_config():
-	var copy = preload("res://godot_plugins/modular_perks/core/perk_config.gd").new()
+	var copy = preload("res://addons/modular_perks/core/perk_config.gd").new()
 	copy.offer_weight_perk = offer_weight_perk
 	copy.offer_weight_gate = offer_weight_gate
 	copy.offer_weight_reroll = offer_weight_reroll

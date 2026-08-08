@@ -1,4 +1,4 @@
-extends "res://godot_plugins/modular_perks/effects/perk_effect.gd"
+extends "res://addons/modular_perks/effects/perk_effect.gd"
 
 
 func get_kind() -> String:

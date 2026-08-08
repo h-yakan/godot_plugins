@@ -109,7 +109,7 @@ UI strings are plain English fallbacks. Wire `PerkHost.translate()` to your loca
 Run headless tests (requires Godot CLI on PATH):
 
 ```bash
-godot --headless --path /path/to/project --script res://godot_plugins/modular_perks/tests/run_tests.gd
+godot --headless --path /path/to/project --script res://addons/modular_perks/tests/run_tests.gd
 ```
 
 For isolated scripts or CLI tools, call `PerkModuleLoader.preload_all()` once before referencing global perk types.

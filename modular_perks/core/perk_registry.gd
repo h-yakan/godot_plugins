@@ -1,8 +1,8 @@
 class_name PerkRegistry
 extends RefCounted
 
-const ConfigScript := preload("res://godot_plugins/modular_perks/core/perk_config.gd")
-const DefinitionScript := preload("res://godot_plugins/modular_perks/core/perk_definition.gd")
+const ConfigScript := preload("res://addons/modular_perks/core/perk_config.gd")
+const DefinitionScript := preload("res://addons/modular_perks/core/perk_definition.gd")
 
 var _config
 var _perks_by_id: Dictionary = {}

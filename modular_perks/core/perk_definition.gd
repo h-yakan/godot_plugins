@@ -1,7 +1,7 @@
 class_name PerkDefinition
 extends Resource
 
-const _Localization := preload("res://godot_plugins/modular_perks/core/localization_bridge.gd")
+const _Localization := preload("res://addons/modular_perks/core/localization_bridge.gd")
 
 @export var id: String = ""
 @export var display_name: String = ""

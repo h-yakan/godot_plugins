@@ -1,11 +1,11 @@
 class_name PerkAPI
 extends RefCounted
 
-const ConfigScript := preload("res://godot_plugins/modular_perks/core/perk_config.gd")
-const RegistryScript := preload("res://godot_plugins/modular_perks/core/perk_registry.gd")
-const DraftScript := preload("res://godot_plugins/modular_perks/core/perk_draft_service.gd")
-const EffectBusScript := preload("res://godot_plugins/modular_perks/effects/perk_effect_bus.gd")
-const NullHostScript := preload("res://godot_plugins/modular_perks/host/null_perk_host.gd")
+const ConfigScript := preload("res://addons/modular_perks/core/perk_config.gd")
+const RegistryScript := preload("res://addons/modular_perks/core/perk_registry.gd")
+const DraftScript := preload("res://addons/modular_perks/core/perk_draft_service.gd")
+const EffectBusScript := preload("res://addons/modular_perks/effects/perk_effect_bus.gd")
+const NullHostScript := preload("res://addons/modular_perks/host/null_perk_host.gd")
 
 var config
 var registry

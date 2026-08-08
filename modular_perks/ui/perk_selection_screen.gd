@@ -2,7 +2,7 @@ extends Control
 
 signal selection_completed(perk_id: String, offer: Dictionary)
 
-const CARD_SCENE := preload("res://godot_plugins/modular_perks/ui/perk_card.tscn")
+const CARD_SCENE := preload("res://addons/modular_perks/ui/perk_card.tscn")
 
 @onready var _title: Label = %Title
 @onready var _cards_row: HBoxContainer = %CardsRow

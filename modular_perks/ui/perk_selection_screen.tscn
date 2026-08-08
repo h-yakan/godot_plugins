@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://modular_perk_selection"]
 
-[ext_resource type="Script" path="res://godot_plugins/modular_perks/ui/perk_selection_screen.gd" id="1"]
+[ext_resource type="Script" path="res://addons/modular_perks/ui/perk_selection_screen.gd" id="1"]
 
 [node name="PerkSelectionScreen" type="Control"]
 layout_mode = 3

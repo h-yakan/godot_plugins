@@ -1,8 +1,8 @@
 class_name PerkFlow
 extends RefCounted
 
-const SELECTION_SCENE := preload("res://godot_plugins/modular_perks/ui/perk_selection_screen.tscn")
-const TARGET_SCENE := preload("res://godot_plugins/modular_perks/ui/perk_target_pick_ui.tscn")
+const SELECTION_SCENE := preload("res://addons/modular_perks/ui/perk_selection_screen.tscn")
+const TARGET_SCENE := preload("res://addons/modular_perks/ui/perk_target_pick_ui.tscn")
 
 
 static func await_selection(

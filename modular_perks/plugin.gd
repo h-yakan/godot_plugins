@@ -1,7 +1,7 @@
 @tool
 extends EditorPlugin
 
-const BASE_PATH := "res://godot_plugins/modular_perks/"
+const BASE_PATH := "res://addons/modular_perks/"
 const PerkDefinitionScript := preload(BASE_PATH + "core/perk_definition.gd")
 const PerkConfigScript := preload(BASE_PATH + "core/perk_config.gd")
 

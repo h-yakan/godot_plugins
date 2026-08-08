@@ -1,7 +1,7 @@
 class_name PerkModuleLoader
 extends RefCounted
 
-const BASE := "res://godot_plugins/modular_perks/"
+const BASE := "res://addons/modular_perks/"
 
 
 static func preload_all() -> void:

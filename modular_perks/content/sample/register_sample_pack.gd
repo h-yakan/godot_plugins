@@ -1,8 +1,8 @@
 class_name SamplePerkPack
 extends RefCounted
 
-const BASE_PATH := "res://godot_plugins/modular_perks/content/sample/"
-const CatalogScript := preload("res://godot_plugins/modular_perks/content/sample/sample_catalog.gd")
+const BASE_PATH := "res://addons/modular_perks/content/sample/"
+const CatalogScript := preload("res://addons/modular_perks/content/sample/sample_catalog.gd")
 
 
 static func register(api) -> void:
