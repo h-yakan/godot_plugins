@@ -102,7 +102,9 @@ Serialize `PerkRunState.to_dict()` inside your save system. The host owns save/l
 
 `PerkFlow.await_selection()` shows three offers. `PerkFlow.apply_pick_with_flows()` runs target/option subflows before calling `apply_pick`.
 
-UI strings are plain English fallbacks. Wire `PerkHost.translate()` to your localization system using keys like `perk.<id>.name`.
+`PerkSelectionScreen` supports both horizontal (`HBoxContainer`) and vertical (`VBoxContainer`) card rows: put either under `%CardsRow`, or call `set_cards_layout()` at runtime. Cards keep entrance/exit flip animations either way.
+
+UI strings are plain English fallbacks. Wire `PerkHost.translate()` to your localization system using keys like `perk.<id>.name` and `perk.ui.*`.
 
 ## Tests
 

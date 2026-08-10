@@ -29,6 +29,12 @@ layout_mode = 2
 text = "Choose a perk"
 horizontal_alignment = 1
 
+[node name="Subtitle" type="Label" parent="Center/Panel"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Pick one perk"
+horizontal_alignment = 1
+
 [node name="CardsRow" type="HBoxContainer" parent="Center/Panel"]
 unique_name_in_owner = true
 layout_mode = 2
