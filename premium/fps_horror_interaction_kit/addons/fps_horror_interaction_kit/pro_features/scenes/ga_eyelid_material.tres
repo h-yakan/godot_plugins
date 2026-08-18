@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ga_eyelid_mat"]
+
+[ext_resource type="Shader" path="res://addons/fps_horror_eye_blink/core/shaders/ga_eyelid.gdshader" id="1_shader"]
+
+[resource]
+shader = ExtResource("1_shader")
+shader_parameter/lid_value = 0.0
+shader_parameter/lid_color = Color(0, 0, 0, 1)
+shader_parameter/curve_strength = 0.5
+shader_parameter/startup_speed = 0.4
+shader_parameter/max_blur = 2.5
+shader_parameter/afterimage_intensity = 0.0
+shader_parameter/blood_color = Color(0.4, 0, 0, 1)
+shader_parameter/texture_scale = Vector2(1, 1)

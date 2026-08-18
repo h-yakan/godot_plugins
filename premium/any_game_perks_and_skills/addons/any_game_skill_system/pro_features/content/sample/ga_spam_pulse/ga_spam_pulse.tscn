@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgspam001"]
+
+[ext_resource type="Script" path="res://addons/any_game_skill_system/pro_features/content/sample/ga_spam_pulse/ga_spam_pulse.gd" id="1_script"]
+[ext_resource type="Resource" path="res://addons/any_game_skill_system/pro_features/content/sample/ga_spam_pulse/ga_spam_pulse.tres" id="2_def"]
+
+[node name="GaSpamPulse" type="Node"]
+script = ExtResource("1_script")
+definition = ExtResource("2_def")

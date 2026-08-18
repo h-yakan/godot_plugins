@@ -27,8 +27,18 @@ class_name GaFpsPlayerController
 @export var standing_collider_path: NodePath = ^"StandingCollider"
 @export var crouching_collider_path: NodePath = ^"CrouchingCollider"
 @export var standup_check_path: NodePath = ^"StandupCheck"
+@export var eyes_path: NodePath = ^"Head/Eyes"
 @export var use_event_bus: bool = true
 @export var player_group: StringName = &"Player"
+@export_group("Headbob")
+@export var headbob_enabled: bool = true
+@export var head_bobbing_sprinting_speed: float = 22.0
+@export var head_bobbing_walking_speed: float = 14.0
+@export var head_bobbing_crouching_speed: float = 10.0
+@export var head_bobbing_sprinting_intensity: float = 0.2
+@export var head_bobbing_walking_intensity: float = 0.1
+@export var head_bobbing_crouching_intensity: float = 0.05
+@export var headbob_lerp_speed: float = 10.0
 
 var _health: float = 50.0
 
@@ -52,6 +62,9 @@ var mouse_captured: bool = true
 var look_rotation: Vector2
 var move_speed: float = 0.0
 var freeflying: bool = false
+var _head_bobbing_current_intensity: float = 0.0
+var _head_bobbing_index: float = 0.0
+var _eyes: Node3D
 
 @onready var head: Node3D = get_node(head_path)
 @onready var standing_collision_shape: CollisionShape3D = get_node(standing_collider_path)
@@ -64,15 +77,15 @@ func _ready() -> void:
 	capture_mouse()
 	look_rotation.y = rotation.y
 	look_rotation.x = head.rotation.x
+	_eyes = get_node_or_null(eyes_path) as Node3D
 	if use_event_bus and GaEventBus:
 		GaEventBus.player_look_switch.connect(_on_player_look_switch)
 		GaEventBus.player_move_switch.connect(_on_player_move_switch)
 
 func _on_player_look_switch(is_release_mouse: bool = true) -> void:
-	if not mouse_captured:
+	# false: freeze look (keep capture for door-push). true: restore FPS look.
+	if is_release_mouse:
 		capture_mouse()
-	elif is_release_mouse:
-		release_mouse()
 	else:
 		mouse_captured = false
 
@@ -112,6 +125,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = 0
 		velocity.z = 0
 	move_and_slide()
+	_update_headbob(delta)
 
 func _update_move_speed() -> void:
 	if Input.is_action_pressed(input_crouch):
@@ -131,6 +145,30 @@ func rotate_look(rot_input: Vector2) -> void:
 	rotate_y(look_rotation.y)
 	head.transform.basis = Basis()
 	head.rotate_x(look_rotation.x)
+
+func _update_headbob(delta: float) -> void:
+	if _eyes == null:
+		return
+	var cam := get_viewport().get_camera_3d()
+	if cam and cam.top_level:
+		return
+	var moving := movement_direction != Vector2.ZERO
+	if Input.is_action_pressed(input_crouch):
+		_head_bobbing_current_intensity = head_bobbing_crouching_intensity
+		_head_bobbing_index += head_bobbing_crouching_speed * delta
+	elif can_sprint and Input.is_action_pressed(input_sprint):
+		_head_bobbing_current_intensity = head_bobbing_sprinting_intensity
+		_head_bobbing_index += head_bobbing_sprinting_speed * delta
+	else:
+		_head_bobbing_current_intensity = head_bobbing_walking_intensity
+		_head_bobbing_index += head_bobbing_walking_speed * delta
+	var bob := Vector2(sin(_head_bobbing_index / 2.0), sin(_head_bobbing_index))
+	if moving and headbob_enabled and is_on_floor():
+		_eyes.position.y = lerp(_eyes.position.y, bob.y * (_head_bobbing_current_intensity / 2.0), delta * headbob_lerp_speed)
+		_eyes.position.x = lerp(_eyes.position.x, bob.x * _head_bobbing_current_intensity, delta * headbob_lerp_speed)
+	else:
+		_eyes.position.y = lerp(_eyes.position.y, 0.0, delta * headbob_lerp_speed)
+		_eyes.position.x = lerp(_eyes.position.x, 0.0, delta * headbob_lerp_speed)
 
 func capture_mouse() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

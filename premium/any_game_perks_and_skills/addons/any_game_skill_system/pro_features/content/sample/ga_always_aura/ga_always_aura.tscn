@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgaura001"]
+
+[ext_resource type="Script" path="res://addons/any_game_skill_system/pro_features/content/sample/ga_always_aura/ga_always_aura.gd" id="1_script"]
+[ext_resource type="Resource" path="res://addons/any_game_skill_system/pro_features/content/sample/ga_always_aura/ga_always_aura.tres" id="2_def"]
+
+[node name="GaAlwaysAura" type="Node"]
+script = ExtResource("1_script")
+definition = ExtResource("2_def")
+dps = 2.0

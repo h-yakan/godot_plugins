@@ -33,18 +33,22 @@ func _ready() -> void:
 func interact() -> void:
 	play_tv()
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if quitting_tv and event.is_action_pressed("pause"):
 		get_viewport().set_input_as_handled()
 		return
-	if player_is_watching_tv:
-		if event.is_action_pressed("secondary_interact") or event.is_action_pressed("pause"):
-			finish_tv()
-			get_viewport().set_input_as_handled()
-		elif media_content:
-			media_content.push_input(event)
+	if not player_is_watching_tv:
+		return
+	if event.is_action_pressed("secondary_interact") or event.is_action_pressed("pause"):
+		finish_tv()
+		get_viewport().set_input_as_handled()
+	elif media_content:
+		media_content.push_input(event)
+		get_viewport().set_input_as_handled()
 
 func play_tv() -> void:
+	if player_is_watching_tv or quitting_tv:
+		return
 	if not camera or not tv_target_pos:
 		return
 	player_is_watching_tv = true
@@ -64,16 +68,18 @@ func finish_tv() -> void:
 	quitting_tv = true
 	active_tween = create_tween()
 	active_tween.tween_property(camera, "global_transform", camera_old_pos, 1.0)
-	active_tween.tween_callback(func():
-		quitting_tv = false
-		player_is_watching_tv = false
+	active_tween.tween_callback(_restore_from_tv)
+
+func _restore_from_tv() -> void:
+	quitting_tv = false
+	player_is_watching_tv = false
+	if camera:
 		camera.top_level = false
-		if use_event_bus and GaEventBus:
-			GaEventBus.player_move_switch.emit(true)
-			GaEventBus.player_look_switch.emit(true)
-			GaEventBus.toggle_ui.emit()
-		disable_tv()
-	).set_delay(1.0)
+	if use_event_bus and GaEventBus:
+		GaEventBus.player_move_switch.emit(true)
+		GaEventBus.player_look_switch.emit(true)
+		GaEventBus.toggle_ui.emit()
+	disable_tv()
 
 func disable_tv() -> void:
 	if media_content:

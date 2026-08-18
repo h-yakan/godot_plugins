@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="GaSkillDefinition" load_steps=3 format=3 uid="uid://cgspamdef001"]
+
+[ext_resource type="Script" path="res://addons/any_game_skill_system/core/ga_skill_definition.gd" id="1_def"]
+[ext_resource type="PackedScene" path="res://addons/any_game_skill_system/pro_features/content/sample/ga_spam_pulse/ga_spam_pulse.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_def")
+id = "ga_spam_pulse"
+display_name = "Pulse"
+description = "Instant pulse with no cooldown and no cost."
+slot_category = &"basic"
+input_action = &"TertiarySkill"
+kind = 0
+cooldown_mode = 1
+cost_mode = 0
+scene = ExtResource("2_scene")

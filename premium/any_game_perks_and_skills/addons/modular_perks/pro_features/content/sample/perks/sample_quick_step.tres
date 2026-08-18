@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="PerkDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/modular_perks/core/perk_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = "sample_quick_step"
+display_name = "Quick Step"
+description = "Multiply a target entity stat after you choose a target."
+unlock_score_required = 100
+category = "combat"
+rarity = "uncommon"
+effect_data = {
+"kind": "stat_multiply",
+"multiplier": 1.25,
+"requires_target_pick": true,
+"stat_id": "speed"
+}

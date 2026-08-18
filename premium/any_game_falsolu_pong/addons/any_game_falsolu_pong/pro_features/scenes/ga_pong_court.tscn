@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgpongcourt001"]
+
+[ext_resource type="Script" path="res://addons/any_game_falsolu_pong/pro_features/ga_pong_court.gd" id="1_court"]
+[ext_resource type="PackedScene" uid="uid://cgpongball001" path="res://addons/any_game_falsolu_pong/pro_features/scenes/ga_pong_ball.tscn" id="2_ball"]
+[ext_resource type="PackedScene" uid="uid://cgpongpaddle001" path="res://addons/any_game_falsolu_pong/pro_features/scenes/ga_pong_paddle.tscn" id="3_paddle"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_wall"]
+
+[node name="GaPongCourt" type="Node2D"]
+script = ExtResource("1_court")
+court_half_width = 576.0
+court_top = -320.0
+court_bottom = 192.0
+ball_scene = ExtResource("2_ball")
+paddle_scene = ExtResource("3_paddle")
+default_paddle_position = Vector2(0, 168)
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="LowerWall" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, 192)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/LowerWall"]
+shape = SubResource("WorldBoundaryShape2D_wall")
+
+[node name="UpperWall" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, -320)
+rotation = -3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/UpperWall"]
+shape = SubResource("WorldBoundaryShape2D_wall")
+
+[node name="LeftWall" type="StaticBody2D" parent="Walls"]
+position = Vector2(-576, 0)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/LeftWall"]
+shape = SubResource("WorldBoundaryShape2D_wall")
+
+[node name="RightWall" type="StaticBody2D" parent="Walls"]
+position = Vector2(576, 0)
+rotation = -1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/RightWall"]
+shape = SubResource("WorldBoundaryShape2D_wall")
+
+[node name="Entities" type="Node2D" parent="."]

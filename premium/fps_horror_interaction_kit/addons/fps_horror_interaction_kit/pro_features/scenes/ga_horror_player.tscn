@@ -1,0 +1,68 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="PackedScene" path="res://addons/fps_3d_player_controller/pro_features/scenes/ga_fps_player.tscn" id="1_player"]
+[ext_resource type="Script" path="res://addons/fps_horror_interaction_kit/pro_features/ga_horror_player.gd" id="2_script"]
+[ext_resource type="Script" path="res://addons/fps_horror_eye_blink/core/scripts/ga_eye_blink.gd" id="3_blink"]
+[ext_resource type="Script" path="res://addons/fps_horror_ear_cover/core/scripts/ga_ear_mechanic.gd" id="4_ear"]
+[ext_resource type="Material" path="res://addons/fps_horror_interaction_kit/pro_features/scenes/ga_eyelid_material.tres" id="5_lid_mat"]
+[ext_resource type="Material" path="res://addons/fps_horror_interaction_kit/pro_features/scenes/ga_ear_material.tres" id="6_ear_mat"]
+
+[node name="GaHorrorPlayer" groups=["Player"] instance=ExtResource("1_player")]
+script = ExtResource("2_script")
+
+[node name="RayCast3D" parent="Head/Eyes/Camera3D" index="0"]
+collide_with_areas = true
+
+[node name="Heartbeat" type="AudioStreamPlayer3D" parent="."]
+bus = &"World"
+
+[node name="Breath" type="AudioStreamPlayer3D" parent="."]
+bus = &"World"
+
+[node name="HorrorOverlay" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="EyeLids" type="ColorRect" parent="HorrorOverlay"]
+material = ExtResource("5_lid_mat")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
+
+[node name="Blackout" type="ColorRect" parent="HorrorOverlay"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="EarCover" type="ColorRect" parent="HorrorOverlay"]
+material = ExtResource("6_ear_mat")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
+
+[node name="GaEyeBlink" type="Node" parent="."]
+script = ExtResource("3_blink")
+eye_lids = NodePath("../HorrorOverlay/EyeLids")
+blackout_rect = NodePath("../HorrorOverlay/Blackout")
+player_path = NodePath("..")
+
+[node name="GaEarMechanic" type="Node" parent="."]
+script = ExtResource("4_ear")
+camera = NodePath("../Head/Eyes/Camera3D")
+screen_rect = NodePath("../HorrorOverlay/EarCover")
+heartbeat_player = NodePath("../Heartbeat")
+breath_player = NodePath("../Breath")

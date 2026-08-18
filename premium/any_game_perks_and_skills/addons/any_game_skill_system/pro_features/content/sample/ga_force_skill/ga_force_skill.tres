@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="GaSkillDefinition" load_steps=3 format=3 uid="uid://cgforcedef001"]
+
+[ext_resource type="Script" path="res://addons/any_game_skill_system/core/ga_skill_definition.gd" id="1_def"]
+[ext_resource type="PackedScene" uid="uid://cgaforce001" path="res://addons/any_game_skill_system/pro_features/content/sample/ga_force_skill/ga_force_skill.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_def")
+id = "ga_force_skill"
+display_name = "Force"
+description = "Active: emits a force in the area."
+cooldown = 0.845
+slot_category = &"basic"
+input_action = &"PrimarySkill"
+kind = 0
+cooldown_mode = 0
+cost_mode = 1
+resource_id = &"mana"
+resource_cost = 15.0
+tags = PackedStringArray("impulse", "sample")
+scene = ExtResource("2_scene")

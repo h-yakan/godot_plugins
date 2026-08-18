@@ -1,0 +1,400 @@
+[gd_scene load_steps=36 format=3]
+
+[ext_resource type="Script" path="res://examples/greybox_apartment/ga_horror_apartment.gd" id="1_apartment"]
+[ext_resource type="PackedScene" path="res://addons/fps_horror_interaction_kit/pro_features/scenes/ga_horror_player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://addons/any_game_notes_documents/core/scenes/ga_read_note_ui.tscn" id="3_note_ui"]
+[ext_resource type="Script" path="res://addons/3d_fps_physics_doors/core/scripts/ga_physics_door.gd" id="4_door"]
+[ext_resource type="Script" path="res://addons/3d_fps_physics_doors/core/scripts/ga_physics_door_pivot.gd" id="5_pivot"]
+[ext_resource type="Script" path="res://examples/greybox_apartment/ga_interact_forward.gd" id="6_forward"]
+[ext_resource type="Script" path="res://addons/any_game_notes_documents/pro_features/ga_note_interactable.gd" id="7_note"]
+[ext_resource type="Resource" path="res://examples/greybox_apartment/notes/landlord_note.tres" id="8_note_data"]
+[ext_resource type="Script" path="res://addons/3d_interactable_tv_viewport/core/scripts/ga_interactable_tv.gd" id="9_tv"]
+[ext_resource type="Script" path="res://examples/greybox_apartment/ga_world_pickup.gd" id="10_pickup"]
+[ext_resource type="Resource" path="res://examples/greybox_apartment/items/cassette.tres" id="11_cassette"]
+[ext_resource type="Script" path="res://addons/3d_item_placement_slots/core/scripts/ga_placement_area.gd" id="12_slot"]
+[ext_resource type="Script" path="res://addons/3d_fps_grabbable_physics/core/scripts/ga_grabbable.gd" id="13_grab"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_floor"]
+albedo_color = Color(0.18, 0.17, 0.16, 1)
+roughness = 0.9
+
+[sub_resource type="StandardMaterial3D" id="Mat_wall"]
+albedo_color = Color(0.32, 0.3, 0.28, 1)
+roughness = 0.95
+
+[sub_resource type="StandardMaterial3D" id="Mat_living"]
+albedo_color = Color(0.28, 0.24, 0.22, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_bedroom"]
+albedo_color = Color(0.2, 0.22, 0.26, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_door"]
+albedo_color = Color(0.35, 0.22, 0.14, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_note"]
+albedo_color = Color(0.82, 0.76, 0.58, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_tv_frame"]
+albedo_color = Color(0.08, 0.08, 0.09, 1)
+
+[sub_resource type="StandardMaterial3D" id="Mat_tv_screen"]
+albedo_color = Color(0.05, 0.08, 0.05, 1)
+emission_enabled = true
+emission = Color(0.1, 0.18, 0.08, 1)
+emission_energy_multiplier = 1.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_can"]
+albedo_color = Color(0.55, 0.18, 0.14, 1)
+metallic = 0.4
+roughness = 0.35
+
+[sub_resource type="Environment" id="Environment_apt"]
+background_mode = 1
+background_color = Color(0.015, 0.015, 0.02, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.16, 0.14, 0.18, 1)
+ambient_light_energy = 0.28
+fog_enabled = true
+fog_light_color = Color(0.04, 0.04, 0.05, 1)
+fog_density = 0.018
+
+[sub_resource type="BoxMesh" id="BoxMesh_door"]
+size = Vector3(0.08, 2.2, 1.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape_door"]
+size = Vector3(0.1, 2.2, 1.0)
+
+[sub_resource type="BoxMesh" id="BoxMesh_note"]
+size = Vector3(0.22, 0.002, 0.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape_note"]
+size = Vector3(0.22, 0.04, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tv"]
+size = Vector3(0.12, 0.7, 1.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_screen"]
+size = Vector3(0.02, 0.52, 0.9)
+
+[sub_resource type="BoxShape3D" id="BoxShape_tv"]
+size = Vector3(0.2, 0.8, 1.2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_tape"]
+size = Vector3(0.18, 0.03, 0.11)
+
+[sub_resource type="BoxShape3D" id="BoxShape_tape"]
+size = Vector3(0.2, 0.06, 0.13)
+
+[sub_resource type="BoxShape3D" id="BoxShape_slot"]
+size = Vector3(0.35, 0.12, 0.28)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_can"]
+top_radius = 0.04
+bottom_radius = 0.04
+height = 0.12
+
+[sub_resource type="CylinderShape3D" id="CylinderShape_can"]
+radius = 0.045
+height = 0.12
+
+[sub_resource type="BoxMesh" id="BoxMesh_table"]
+size = Vector3(0.9, 0.08, 0.5)
+
+[node name="GaHorrorApartment" type="Node3D"]
+script = ExtResource("1_apartment")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_apt")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.8, -0.4, 0.45, 0, 0.75, 0.66, -0.6, -0.53, 0.6, 0, 6, 0)
+light_color = Color(0.55, 0.5, 0.45, 1)
+light_energy = 0.15
+shadow_enabled = true
+
+[node name="HallLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.45, 0.4)
+light_color = Color(0.95, 0.82, 0.62, 1)
+light_energy = 0.9
+omni_range = 7.0
+
+[node name="LivingLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6, 2.45, 0.4)
+light_color = Color(0.7, 0.85, 0.55, 1)
+light_energy = 1.15
+omni_range = 8.0
+
+[node name="BedroomLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.2, 2.45, 0)
+light_color = Color(0.55, 0.45, 0.7, 1)
+light_energy = 0.55
+omni_range = 6.0
+
+[node name="Geometry" type="CSGCombiner3D" parent="."]
+use_collision = true
+
+[node name="Floor" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, -0.1, 0.2)
+size = Vector3(16.4, 0.2, 10.2)
+material = SubResource("Mat_floor")
+
+[node name="Ceiling" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 2.9, 0.2)
+size = Vector3(16.4, 0.2, 10.2)
+material = SubResource("Mat_wall")
+
+[node name="OuterNorth" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.4, -4.9)
+size = Vector3(16.4, 2.8, 0.2)
+material = SubResource("Mat_wall")
+
+[node name="OuterSouth" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.4, 5.3)
+size = Vector3(16.4, 2.8, 0.2)
+material = SubResource("Mat_wall")
+
+[node name="OuterEast" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.7, 1.4, 0.2)
+size = Vector3(0.2, 2.8, 10.2)
+material = SubResource("Mat_living")
+
+[node name="OuterWest" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 1.4, 0.2)
+size = Vector3(0.2, 2.8, 10.2)
+material = SubResource("Mat_bedroom")
+
+[node name="HallLivingWall" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.4, 0.2)
+size = Vector3(0.16, 2.8, 10.2)
+material = SubResource("Mat_wall")
+
+[node name="HallBedroomWall" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1.4, 0.2)
+size = Vector3(0.16, 2.8, 10.2)
+material = SubResource("Mat_wall")
+
+[node name="LivingDoorHole" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 1.1, 0.5)
+operation = 2
+size = Vector3(0.4, 2.22, 1.08)
+
+[node name="BedroomDoorHole" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 1.1, 0.5)
+operation = 2
+size = Vector3(0.4, 2.22, 1.08)
+
+[node name="HallTable" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0.45, 1.7)
+size = Vector3(0.7, 0.9, 0.4)
+material = SubResource("Mat_wall")
+
+[node name="LivingTable" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.4, 0.36, 1.8)
+size = Vector3(1.1, 0.72, 0.6)
+material = SubResource("Mat_living")
+
+[node name="TvStand" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.15, 0.35, 0.5)
+size = Vector3(0.7, 0.7, 1.4)
+material = SubResource("Mat_tv_frame")
+
+[node name="Bed" type="CSGBox3D" parent="Geometry"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.4, 0.28, -1.6)
+size = Vector3(2.0, 0.56, 1.4)
+material = SubResource("Mat_bedroom")
+
+[node name="GaHorrorPlayer" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.4)
+
+[node name="NoteLayer" type="CanvasLayer" parent="."]
+layer = 20
+
+[node name="GaReadNoteUI" parent="NoteLayer" instance=ExtResource("3_note_ui")]
+
+[node name="Hallway" type="Node3D" parent="."]
+
+[node name="Note" type="StaticBody3D" parent="Hallway"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.55, 0.92, 1.7)
+script = ExtResource("7_note")
+note_data = ExtResource("8_note_data")
+mesh_path = NodePath("Mesh")
+
+[node name="Mesh" type="MeshInstance3D" parent="Hallway/Note"]
+mesh = SubResource("BoxMesh_note")
+surface_material_override/0 = SubResource("Mat_note")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hallway/Note"]
+shape = SubResource("BoxShape_note")
+
+[node name="LivingDoor" type="Node3D" parent="Hallway"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0, 0)
+script = ExtResource("4_door")
+
+[node name="pivot" type="Node3D" parent="Hallway/LivingDoor"]
+script = ExtResource("5_pivot")
+
+[node name="Mesh" type="MeshInstance3D" parent="Hallway/LivingDoor/pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0.5)
+mesh = SubResource("BoxMesh_door")
+surface_material_override/0 = SubResource("Mat_door")
+
+[node name="Body" type="StaticBody3D" parent="Hallway/LivingDoor/pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0.5)
+script = ExtResource("6_forward")
+target_path = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hallway/LivingDoor/pivot/Body"]
+shape = SubResource("BoxShape_door")
+
+[node name="BedroomDoor" type="Node3D" parent="Hallway"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0, 0)
+script = ExtResource("4_door")
+
+[node name="pivot" type="Node3D" parent="Hallway/BedroomDoor"]
+script = ExtResource("5_pivot")
+
+[node name="Mesh" type="MeshInstance3D" parent="Hallway/BedroomDoor/pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0.5)
+mesh = SubResource("BoxMesh_door")
+surface_material_override/0 = SubResource("Mat_door")
+
+[node name="Body" type="StaticBody3D" parent="Hallway/BedroomDoor/pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0.5)
+script = ExtResource("6_forward")
+target_path = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hallway/BedroomDoor/pivot/Body"]
+shape = SubResource("BoxShape_door")
+
+[node name="LivingRoom" type="Node3D" parent="."]
+
+[node name="TV" type="StaticBody3D" parent="LivingRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.28, 1.25, 0.5)
+script = ExtResource("9_tv")
+media_content_path = "res://examples/greybox_apartment/tv/ga_static_viewport.tscn"
+screen_material = SubResource("Mat_tv_screen")
+
+[node name="Frame" type="MeshInstance3D" parent="LivingRoom/TV"]
+mesh = SubResource("BoxMesh_tv")
+surface_material_override/0 = SubResource("Mat_tv_frame")
+
+[node name="Screen" type="MeshInstance3D" parent="LivingRoom/TV"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.07, 0, 0)
+mesh = SubResource("BoxMesh_screen")
+surface_material_override/0 = SubResource("Mat_tv_screen")
+
+[node name="CameraPlace" type="Marker3D" parent="LivingRoom/TV"]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, -0.85, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LivingRoom/TV"]
+shape = SubResource("BoxShape_tv")
+
+[node name="CassettePickup" type="StaticBody3D" parent="LivingRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.35, 0.76, 1.8)
+script = ExtResource("10_pickup")
+item_data = ExtResource("11_cassette")
+pickup_message = "Cassette. Press 1 to equip, then RMB on the deck."
+
+[node name="Mesh" type="MeshInstance3D" parent="LivingRoom/CassettePickup"]
+mesh = SubResource("BoxMesh_tape")
+surface_material_override/0 = SubResource("Mat_door")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LivingRoom/CassettePickup"]
+shape = SubResource("BoxShape_tape")
+
+[node name="TapeSlot" type="Area3D" parent="LivingRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.0, 0.78, 0.5)
+collision_layer = 8
+script = ExtResource("12_slot")
+area_id = "tv_deck"
+allowed_item_names = Array[String](["Cassette"])
+
+[node name="Place" type="Marker3D" parent="LivingRoom/TapeSlot"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LivingRoom/TapeSlot"]
+shape = SubResource("BoxShape_slot")
+
+[node name="DeckMesh" type="MeshInstance3D" parent="LivingRoom/TapeSlot"]
+mesh = SubResource("BoxMesh_table")
+surface_material_override/0 = SubResource("Mat_tv_frame")
+
+[node name="Bedroom" type="Node3D" parent="."]
+
+[node name="CanA" type="RigidBody3D" parent="Bedroom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 0.4, 1.1)
+mass = 0.35
+script = ExtResource("13_grab")
+
+[node name="Mesh" type="MeshInstance3D" parent="Bedroom/CanA"]
+mesh = SubResource("CylinderMesh_can")
+surface_material_override/0 = SubResource("Mat_can")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bedroom/CanA"]
+shape = SubResource("CylinderShape_can")
+
+[node name="CanB" type="RigidBody3D" parent="Bedroom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6, 0.4, -0.4)
+mass = 0.4
+script = ExtResource("13_grab")
+
+[node name="Mesh" type="MeshInstance3D" parent="Bedroom/CanB"]
+mesh = SubResource("CylinderMesh_can")
+surface_material_override/0 = SubResource("Mat_can")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bedroom/CanB"]
+shape = SubResource("CylinderShape_can")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 15
+
+[node name="Controls" type="Label" parent="HUD"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -92.0
+offset_right = 720.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.85, 0.82, 0.75, 0.85)
+theme_override_font_sizes/font_size = 14
+text = "WASD move   LMB interact/grab   RMB throw/place   C/V blink   Q+E cover ears   1 equip   Esc pause"
+
+[node name="Hint" type="Label" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -128.0
+offset_right = 240.0
+offset_bottom = -96.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.95, 0.92, 0.8, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+
+[node name="Warning" type="Label" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = 80.0
+offset_right = 280.0
+offset_bottom = 120.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.95, 0.55, 0.4, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+
+[node name="Equipped" type="Label" parent="HUD"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 480.0
+offset_bottom = 44.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.75, 0.9, 0.7, 0.9)
+theme_override_font_sizes/font_size = 16

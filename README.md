@@ -15,7 +15,9 @@ These packages live outside `addons/` so the main project is untouched. Copy any
 
 ## Plugins
 
-- **any_game_event_bus** — GaEventBus
+- **fps_horror_interaction_kit** (Pro) — Flagship bundle: blink, ear cover, physics doors, grab, placement, TV, notes, horror player prefab, greybox apartment (`premium/fps_horror_interaction_kit/`)
+- **any_game_perks_and_skills** (Pro) — Modular Perks + Skill System as one SKU (`premium/any_game_perks_and_skills/`)
+- **any_game_event_bus** — GaEventBus (Pro-only hub that connects the other plugins; bundled free with every Pro package)
 - **any_game_quest_system** — GaQuestManager, GaQuest, GaQuestUI
 - **any_game_dialogue_subtitles** — GaDialogueManager, GaDialogueUI
 - **any_game_inventory** — GaInventoryManager, GaItemData

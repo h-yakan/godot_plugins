@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ga_ear_mat"]
+
+[ext_resource type="Shader" path="res://addons/fps_horror_ear_cover/core/shaders/ga_ear_cover.gdshader" id="1_shader"]
+
+[resource]
+shader = ExtResource("1_shader")
+shader_parameter/ear_value = 0.0
+shader_parameter/center_opening = 0.15
+shader_parameter/dark_color = Color(0, 0, 0, 1)
+shader_parameter/flesh_color = Color(0.18, 0.03, 0.03, 1)

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="GaNoteData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/any_game_notes_documents/core/ga_note_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+note_id = "landlord_note"
+note_content = "[b]If you can read this, keep your hands where I can see them.[/b]
+
+The tape is on the living-room table. Slot it into the deck under the television.
+
+The door into that room is a real door. Lean into it. Push.
+
+There is a can in the bedroom if you need something to throw.
+
+When the set starts talking, cover both ears (Q + E). Tap C to let the lids fall. Tap V to open them.
+
+Don't finish a blink if you can still hear it."

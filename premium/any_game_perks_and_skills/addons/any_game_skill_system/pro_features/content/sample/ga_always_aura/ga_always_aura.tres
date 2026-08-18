@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="GaSkillDefinition" load_steps=3 format=3 uid="uid://cgauradef001"]
+
+[ext_resource type="Script" path="res://addons/any_game_skill_system/core/ga_skill_definition.gd" id="1_def"]
+[ext_resource type="PackedScene" path="res://addons/any_game_skill_system/pro_features/content/sample/ga_always_aura/ga_always_aura.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_def")
+id = "ga_always_aura"
+display_name = "Burning Aura"
+description = "Always active: deals damage around you over time."
+slot_category = &"ultimate"
+kind = 3
+cooldown_mode = 1
+cost_mode = 0
+tick_while_active = true
+scene = ExtResource("2_scene")
+show_in_skill_bar = true

@@ -1,43 +1,43 @@
-# PT (Silent Hills) tarzı kamera sarsıntısı.
-# Sürekli hafif "idle" sallanma + isteğe bağlı travma (darbe/sıçrama) ile artan sarsıntı.
-# Uygulanan sarsıntı yumuşatılarak daha organik his verir.
+# PT (Silent Hills) style camera shake.
+# Light idle sway plus optional trauma (hit / land) that increases shake.
+# Applied shake is smoothed for a more organic feel.
 extends Node3D
 class_name GaCameraShake
 
-@export_group("Yumuşatma (smooth)")
-@export var shake_smooth_speed: float = 12.0  ## Ne kadar hızlı kamera hedef sarsıntıya yetişir. Düşük = daha akıcı.
+@export_group("Smoothing")
+@export var shake_smooth_speed: float = 12.0  ## How quickly the camera catches the target shake. Lower is smoother.
 
-@export_group("Idle Shake (PT tarzı sürekli sallanma)")
+@export_group("Idle Shake")
 @export var idle_enabled: bool = true
 @export var idle_rotation_amount: float = 0.015
 @export var idle_position_amount: float = 0.004
 @export var idle_noise_speed: float = 0.25
 @export var idle_noise_scale: float = 0.8
 
-@export_group("Trauma (tek seferlik sarsıntı)")
+@export_group("Trauma")
 @export var trauma_decay: float = 1.2
 @export var trauma_rotation_mult: float = 3.0
 @export var trauma_position_mult: float = 0.012
 
-@export_group("Hareket (yürüme - koşma)")
+@export_group("Movement")
 @export var movement_boost_enabled: bool = true
 @export var movement_rotation_boost: float = 0.06
 @export var movement_position_boost: float = 0.0012
 
-@export_group("Running Camera Tilt (koşarken yönlü eğim)")
+@export_group("Running Camera Tilt")
 @export var running_tilt_enabled: bool = true
-@export var running_tilt_pitch_deg: float = 4.0   ## İleri/geri koşuda eğim (derece)
-@export var running_tilt_roll_deg: float = 5.0    ## Sağa/sola koşuda yatma (derece)
-@export var running_tilt_smooth: float = 6.0      ## Eğime geçiş hızı
+@export var running_tilt_pitch_deg: float = 4.0   ## Pitch while running forward/back (degrees).
+@export var running_tilt_roll_deg: float = 5.0    ## Roll while strafing (degrees).
+@export var running_tilt_smooth: float = 6.0      ## Tilt blend speed.
 
-@export_group("Adım hissi (head bob)")
+@export_group("Head Bob")
 @export var step_bob_enabled: bool = true
 @export var step_bob_vertical: float = 0.008
 @export var step_bob_lateral: float = 0.004
 @export var step_bob_roll: float = 0.01
 @export var steps_per_meter: float = 2.2
 @export var step_smooth: float = 10.0
-@export var step_bob_speed_scale: bool = true    ## Hız arttıkça genlik artsın
+@export var step_bob_speed_scale: bool = true    ## Scale amplitude with move speed.
 
 var _rest_position: Vector3
 var _rest_rotation: Vector3
@@ -48,10 +48,10 @@ var _player: CharacterBody3D
 var _step_phase: float = 0.0
 var _step_bob_offset: Vector3
 var _step_bob_rotation: float = 0.0
-## Running tilt için yumuşak geçiş
+## Soft blend for running tilt
 var _running_tilt_pitch: float = 0.0
 var _running_tilt_roll: float = 0.0
-## Uygulanan sarsıntıyı frame'ler arasında yumuşatmak için
+## Smooth applied shake across frames
 var _smoothed_rot_shake: Vector3 = Vector3.ZERO
 var _smoothed_pos_shake: Vector3 = Vector3.ZERO
 
@@ -60,11 +60,11 @@ func _ready() -> void:
 	_rest_rotation = rotation
 	_noise = FastNoiseLite.new()
 	_noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
-	_noise.frequency = 0.25  # Daha yavaş değişim = daha akıcı sarsıntı
+	_noise.frequency = 0.25  # Slower change = smoother shake
 	_noise.fractal_octaves = 2
 	_noise.fractal_lacunarity = 1.2
 	_noise.seed = randi()
-	# Oyuncu referansı (Head -> ProtoController)
+	# Player reference (Head -> controller)
 	var head = get_parent()
 	if head and head.get_parent() is CharacterBody3D:
 		_player = head.get_parent() as CharacterBody3D
@@ -72,7 +72,7 @@ func _ready() -> void:
 		GaEventBus.camera_shake_trauma.connect(_on_trauma_signal)
 
 func _process(delta: float) -> void:
-	# TV/diyalog vb. kamerayı kendi kontrolüne aldıysa sarsıntı uygulama
+	# Skip shake while TV/dialogue owns the camera
 	var cam := get_viewport().get_camera_3d()
 	if cam and cam.top_level:
 		return
@@ -83,7 +83,7 @@ func _process(delta: float) -> void:
 	var rot_shake := Vector3.ZERO
 	var pos_shake := Vector3.ZERO
 
-	# Idle (sürekli organik sallanma)
+	# Idle (constant organic sway)
 	if idle_enabled:
 		rot_shake.x = _sample_noise(0.0, _noise_time) * idle_rotation_amount
 		rot_shake.y = _sample_noise(10.0, _noise_time) * idle_rotation_amount
@@ -92,7 +92,7 @@ func _process(delta: float) -> void:
 		pos_shake.y = _sample_noise(40.0, _noise_time) * idle_position_amount
 		pos_shake.z = _sample_noise(50.0, _noise_time) * idle_position_amount
 
-	# Hareket ile artan sarsıntı
+	# Shake that grows with movement
 	var horz_speed: float = 0.0
 	if _player:
 		var vel := _player.velocity
@@ -110,7 +110,7 @@ func _process(delta: float) -> void:
 				0.0
 			)
 
-		# Running Camera Tilt — dot product ile yönlü pitch/roll (koşarken eğilme)
+		# Running camera tilt — directional pitch/roll from velocity dot products
 		if running_tilt_enabled and horz_speed > 0.5:
 			var vel_h := Vector3(vel.x, 0.0, vel.z)
 			var vel_len := vel_h.length()
@@ -140,7 +140,7 @@ func _process(delta: float) -> void:
 		rot_shake.x += _running_tilt_pitch
 		rot_shake.z += _running_tilt_roll
 
-	# Head Bobbing — sine wave, hıza duyarlı genlik, sadece yerde
+	# Head bob — speed-scaled sine, grounded only
 	if step_bob_enabled and _player:
 		if _player.is_on_floor():
 			var step_rate := horz_speed * steps_per_meter
@@ -171,7 +171,7 @@ func _process(delta: float) -> void:
 		pos_shake += _step_bob_offset
 		rot_shake.z += _step_bob_rotation
 
-	# Travma (tek seferlik; travma² ile kuyruk etkisi)
+	# Trauma (one-shot; trauma² for a decaying tail)
 	var trauma_mult := _trauma * _trauma
 	rot_shake += Vector3(
 		_sample_noise(110.0, _noise_time) * trauma_rotation_mult * trauma_mult,
@@ -184,7 +184,7 @@ func _process(delta: float) -> void:
 		_sample_noise(160.0, _noise_time) * trauma_position_mult * trauma_mult * 0.5
 	)
 
-	# Frame'ler arası yumuşatma: ani sıçramalar yerine akıcı geçiş
+	# Smooth between frames so shake does not pop
 	var smooth_factor := clampf(shake_smooth_speed * delta, 0.0, 1.0)
 	_smoothed_pos_shake = _smoothed_pos_shake.lerp(pos_shake, smooth_factor)
 	_smoothed_rot_shake = _smoothed_rot_shake.lerp(rot_shake, smooth_factor)
@@ -193,12 +193,12 @@ func _process(delta: float) -> void:
 	rotation = _rest_rotation + _smoothed_rot_shake
 
 func _sample_noise(offset: float, t: float) -> float:
-	# Zaman ekseninde yumuşak geçiş için 3D örnekleme (t, t*0.7, offset)
+	# 3D sample along time for smoother motion (t, t*0.7, offset)
 	return _noise.get_noise_3d(offset, t * 0.5, offset * 0.5)
 
-## Tek seferlik sarsıntı tetikle (0 = yok, 1 = max).
-## Örnek: add_trauma(0.5) — darbe, sıçrama, korku anı.
-## Alternatif: GaEventBus.camera_shake_trauma.emit(0.5)
+## Add a one-shot shake (0 = none, 1 = max).
+## Example: add_trauma(0.5) — hit, land, scare beat.
+## Alternative: GaEventBus.camera_shake_trauma.emit(0.5)
 func add_trauma(amount: float) -> void:
 	_trauma = clampf(_trauma + amount, 0.0, 1.0)
 

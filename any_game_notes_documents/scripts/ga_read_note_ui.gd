@@ -13,16 +13,18 @@ func _ready() -> void:
 		GaEventBus.show_note.connect(show_text)
 
 func show_text(text: String) -> void:
-	show()
 	if rich_text_label:
 		rich_text_label.text = text
+	show()
+	if reading:
+		return
 	if GaEventBus:
 		GaEventBus.toggle_ui.emit()
 		GaEventBus.player_look_switch.emit(false)
 		GaEventBus.player_move_switch.emit(false)
 	reading = true
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if not reading:
 		return
 	for action in close_actions:

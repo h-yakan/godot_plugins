@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GaItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/any_game_inventory/core/ga_item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+item_name = "Cassette"
+item_description = "A warped tape. The label has been picked off with a thumbnail."
+inspection_scene = "res://examples/greybox_apartment/items/cassette_placed.tscn"
+content_path = ""

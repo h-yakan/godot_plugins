@@ -1,0 +1,45 @@
+; Engine configuration file.
+; Open this folder as a Godot 4.2+ project and press Play.
+
+config_version=5
+
+[application]
+
+config/name="FPS Horror Interaction Kit"
+config/description="Greybox apartment demo: blink, ear cover, physics doors, grab, placement, TV, notes."
+run/main_scene="res://examples/greybox_apartment/ga_horror_apartment.tscn"
+config/features=PackedStringArray("4.2", "Forward Plus")
+config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="res://examples/greybox_apartment/default_bus_layout.tres"
+
+[autoload]
+
+GaEventBus="*res://addons/any_game_event_bus/core/scripts/ga_event_bus.gd"
+GaInventoryManager="*res://addons/any_game_inventory/core/ga_inventory_manager.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/any_game_event_bus/plugin.cfg", "res://addons/any_game_inventory/plugin.cfg", "res://addons/any_game_notes_documents/plugin.cfg", "res://addons/fps_3d_player_controller/plugin.cfg", "res://addons/fps_3d_interaction_ray/plugin.cfg", "res://addons/fps_horror_eye_blink/plugin.cfg", "res://addons/fps_horror_ear_cover/plugin.cfg", "res://addons/3d_fps_physics_doors/plugin.cfg", "res://addons/3d_fps_grabbable_physics/plugin.cfg", "res://addons/3d_item_placement_slots/plugin.cfg", "res://addons/3d_interactable_tv_viewport/plugin.cfg", "res://addons/fps_horror_interaction_kit/plugin.cfg")
+
+[layer_names]
+
+3d_physics/layer_4="PlacementSlots"
+
+[physics]
+
+3d/default_gravity=9.8
+
+[rendering]
+
+renderer/rendering_method="forward_plus"
+anti_aliasing/quality/msaa_3d=1

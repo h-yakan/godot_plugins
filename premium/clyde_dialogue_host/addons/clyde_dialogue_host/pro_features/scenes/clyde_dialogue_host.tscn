@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://addons/clyde_dialogue_host/core/clyde_dialogue_host.gd" id="1_host"]
+[ext_resource type="Script" path="res://addons/clyde_dialogue_host/core/presenters/rich_text_presenter.gd" id="2_presenter"]
+
+[node name="ClydeDialogueHost" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_host")
+
+[node name="DialogueUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+visible = false
+
+[node name="Panel" type="Panel" parent="DialogueUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogueUI/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Dialogue" type="RichTextLabel" parent="DialogueUI/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+bbcode_enabled = true
+scroll_following = true
+
+[node name="Choices" type="RichTextLabel" parent="DialogueUI/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+
+[node name="RichTextDialoguePresenter" type="Node" parent="."]
+script = ExtResource("2_presenter")
+dialogue_label_path = NodePath("../DialogueUI/Panel/VBoxContainer/Dialogue")
+choices_label_path = NodePath("../DialogueUI/Panel/VBoxContainer/Choices")

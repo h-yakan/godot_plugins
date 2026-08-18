@@ -1,12 +1,7 @@
 # Any Game Event Bus
 
-Game-agnostic Godot plugin.
+Pro-only signal hub. Canonical package: `premium/any_game_event_bus/`.
 
-## Dependencies
-- None
+Store page (placeholder): [https://hyakan.itch.io/any-game-event-bus](https://hyakan.itch.io/any-game-event-bus)
 
-## Autoload
-GaEventBus
-
-## Usage
-Copy folder to `res://addons/` and enable in Project Settings > Plugins, or register autoloads manually.
+Every other Pro package includes Event Bus in the zip at no extra cost.
